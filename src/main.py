@@ -1,3 +1,4 @@
 from Utils import *
 
-Utils.readFile()
+graf = Utils.readFile()
+print(graf)
