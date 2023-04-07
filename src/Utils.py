@@ -2,13 +2,6 @@ import tkinter as tk
 from tkinter import filedialog
 
 
-# root = tk.Tk()
-# root.withdraw()
-# file_path = filedialog.askopenfile()
-# print(file_path.read())
-# file_path.close()
-
-
 class Utils:
     def checkValid(adjecencyMatrix: list[list[str]]) -> bool:
         for i in range (len(adjecencyMatrix)):
