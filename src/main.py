@@ -1,4 +1,5 @@
 from Utils import *
+from UCS import *
 
 adjacencyMatrix, valid = Utils.readFile()
 while (not valid):
@@ -15,7 +16,12 @@ if (inputManual == "y" or inputManual == "Y"):
 else:
     nodeDict,nameList = Utils.nameNode(False, 8)
 
-
-a = Utils.matrixToMap(adjacencyMatrix, nameList)
-print(a)
 Utils.drawGraph(adjacencyMatrix, nameList)
+map = Utils.matrixToMap(adjacencyMatrix, nameList)
+
+origin = '1'
+destination = '8'
+distance, path = UCS.findUCS(origin, destination, map, nameList)
+print("Jarak dari simpul", origin, "ke simpul", destination, "adalah", distance)
+
+Utils.showPath(adjacencyMatrix, nameList, path)
