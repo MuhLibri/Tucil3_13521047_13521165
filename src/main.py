@@ -19,8 +19,8 @@ else:
 Utils.drawGraph(adjacencyMatrix, nameList)
 map = Utils.matrixToMap(adjacencyMatrix, nameList)
 
-origin = '1'
-destination = '8'
+origin = input("Masukkan simpul asal: ")
+destination = input("Masukkan simpul tujuan: ")
 distance, path = UCS.findUCS(origin, destination, map, nameList)
 print("Jarak dari simpul", origin, "ke simpul", destination, "adalah", distance)
 

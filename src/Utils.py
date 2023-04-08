@@ -60,10 +60,10 @@ class Utils:
 
         return nodeDict, nameList
 
-    def matrixToMap(adjacencyMatrix: list[list[int]], nameList : list[str]) -> dict:
+    def matrixToMap(adjacencyMatrix: list[list[int]], nameList : list[str]) -> dict[(str,list[(str,int)])]:
         graphMap : dict
-        graphTuple = []
-        neighbour = []
+        graphTuple : list[str,list[(str,int)]] = []
+        neighbour : list[(str,int)] = []
         for i in range (len(nameList)):
             for j in range (len(adjacencyMatrix[i])):
                 if (adjacencyMatrix[i][j] != 0):
@@ -83,9 +83,9 @@ class Utils:
                     G.add_edge(nameList[i], nameList[j], weight = adjacencyMatrix[i][j])
 
         pos = nx.spring_layout(G, seed=7)
-        nx.draw_networkx_nodes(G, pos, node_size=6000)
+        nx.draw_networkx_nodes(G, pos, node_size=[len(v) * 3000 for v in G.nodes()])
         nx.draw_networkx_edges(G, pos, edgelist=G.edges, width=10)
-        nx.draw_networkx_labels(G, pos, font_size=25, font_family="sans-serif")
+        nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
         edge_labels = nx.get_edge_attributes(G, "weight")
         nx.draw_networkx_edge_labels(G, pos, edge_labels, font_size=20)
 
@@ -102,16 +102,18 @@ class Utils:
                 if (adjacencyMatrix[i][j] != 0):
                     G.add_edge(nameList[i], nameList[j], weight = adjacencyMatrix[i][j])
 
-        eNotPath = [(u, v) for (u, v, d) in G.edges(data=True) if (not (u in path and v in path))]
-        ePath = [(u, v) for (u, v, d) in G.edges(data=True) if (u in path and v in path)]
+        ePath = []
+        for i in range (len(path)-1):
+            ePath.append((path[i], path[i+1]))
+        eNotPath = [(u, v) for (u, v, d) in G.edges(data=True) if (u, v) not in ePath]
 
         pos = nx.spring_layout(G, seed=7)
-        nx.draw_networkx_nodes(G, pos, node_size=6000)
+        nx.draw_networkx_nodes(G, pos, node_size=[len(v) * 3000 for v in G.nodes()])
 
         nx.draw_networkx_edges(G, pos, edgelist=eNotPath, width=10)
-        nx.draw_networkx_edges(G, pos, edgelist=ePath, width=10, alpha=0.5, edge_color="b", style="dashed")
+        nx.draw_networkx_edges(G, pos, edgelist=ePath, width=10, edge_color="violet")
 
-        nx.draw_networkx_labels(G, pos, font_size=25, font_family="sans-serif")
+        nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
         edge_labels = nx.get_edge_attributes(G, "weight")
         nx.draw_networkx_edge_labels(G, pos, edge_labels, font_size=20)
 
@@ -119,4 +121,4 @@ class Utils:
         ax.margins(0.08)
         plt.axis("off")
         plt.tight_layout()
-        plt.show()        
+        plt.show()
