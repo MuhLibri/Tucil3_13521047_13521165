@@ -48,7 +48,7 @@ class Utils:
         
         if (manual):
             for i in range (nodeAmount):
-                name = input()
+                name = input(("Masukan nama simpul ke-" + str(i+1) + ": "))
                 nameList.append(name)
                 nodeTupleList.append((name,i))
         else:
@@ -59,6 +59,21 @@ class Utils:
         nodeDict = dict(nodeTupleList)
 
         return nodeDict, nameList
+
+    def matrixToMap(adjacencyMatrix: list[list[int]], nameList : list[str]):
+        graphMap : dict()
+        graphTuple = []
+        neighbour = []
+        for i in range (len(nameList)):
+            for j in range (len(adjacencyMatrix[i])):
+                if (adjacencyMatrix[i][j] != 0):
+                    neighbour.append((nameList[j],adjacencyMatrix[i][j]))
+            graphTuple.append((nameList[i], neighbour.copy()))
+            neighbour.clear()
+
+        graphMap = dict(graphTuple)
+        return graphMap
+                    
 
     def drawGraph(adjacencyMatrix: list[list[int]], nameList : list[str]):
         G = nx.Graph()
