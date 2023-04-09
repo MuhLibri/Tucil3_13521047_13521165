@@ -12,9 +12,9 @@ while (inputManual not in ["y","Y","n","N"]):
     inputManual = input("Apakah ingin menamai simpul? (y/n)\n")
 
 if (inputManual == "y" or inputManual == "Y"):
-    nodeDict,nameList = Utils.nameNode(True, 8)
+    nodeDict,nameList = Utils.nameNode(True, len(adjacencyMatrix))
 else:
-    nodeDict,nameList = Utils.nameNode(False, 8)
+    nodeDict,nameList = Utils.nameNode(False, len(adjacencyMatrix))
 
 Utils.drawGraph(adjacencyMatrix, nameList)
 map = Utils.matrixToMap(adjacencyMatrix, nameList)
