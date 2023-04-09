@@ -1,5 +1,5 @@
 # Tugas Kecil 3 IF2211 - Strategi Algoritma 
-Dalam rangka menyelesaikan persoalan mencari lintasan terpendek, dibuatlah program ini untuk menemukan solusinya. Program ini menggunakan algoritma UCS (Uniform Cost Search) dan A* (A star) untuk mencari lintasan terpendek dari suatu titik ke titik lain.
+Dalam rangka menyelesaikan persoalan mencari lintasan terpendek, dibuatlah program ini untuk menemukan solusinya. Program ini menggunakan algoritma UCS (Uniform Cost Search) dan A* (A Star) untuk mencari lintasan terpendek dari suatu titik ke titik lain.
 
 # Requirement Program
 Untuk menjalankan program ini terdapat beberapa requirement yang perlu diinstall, yaitu:
