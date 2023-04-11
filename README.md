@@ -8,7 +8,7 @@ Untuk menjalankan program ini terdapat beberapa requirement yang perlu diinstall
 3. Matplotlib
 
 # Cara Menggunakan
-Pengguna cukup membuka terminal pada folder ``src`` dan mengetikkan ``python main.py`` pada terminal
+Sebelum menjalankan program, pengguna perlu menyiapkan file ``.txt`` yang berisikan matrix ketetanggaan beserta nama simpulnya. Contoh format file dapat dilihat pada folder ``test``. Format secara umum yaitu bagian awal file merupakan matrix ketetanggan dengan ukuran minimal 8x8 lalu baris terakhir berisikan nama setiap simpul mulai dari simpul satu sampai simpul terakhir dari kiri ke kanan. Setelah file ``.txt`` siap, pengguna cukup membuka terminal pada folder ``src`` dan mengetikkan ``python main.py`` pada terminal.
 
 
 # Made by Muhammad Equilibrie Fajria - 13521047 and Reza Pahlevi Ubaidillah - 13521165
