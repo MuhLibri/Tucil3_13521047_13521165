@@ -7,26 +7,28 @@ import numpy as np
 
 class Utils:
     def checkValid(adjecencyMatrix: list[list[str]]) -> str:
-        if (len(adjecencyMatrix) < 8 or len(adjecencyMatrix[0]) < 8):
+        if (len(adjecencyMatrix)-1 < 8 or len(adjecencyMatrix[0]) < 8):
             return "too_small"
-        elif (len(adjecencyMatrix) != len(adjecencyMatrix[0])):
+        elif (len(adjecencyMatrix)-1 != len(adjecencyMatrix[0])):
             return "size_diff"
-        for i in range (len(adjecencyMatrix)):
+        for i in range (len(adjecencyMatrix)-1):
             for j in range (len(adjecencyMatrix[0])):
                 if (not adjecencyMatrix[i][j].isdigit()):
                     return "not_number"
         return "valid"
 
-    def readFile() -> list[list[int]] and bool:
+    def readFile() -> list[list[int]] and list[str] and bool:
         root = tk.Tk()
         root.withdraw()
         file = filedialog.askopenfile()
         adjacencyMatrix = [[num.strip() for num in line.split(',')] for line in file]
+        nameList = adjacencyMatrix[len(adjacencyMatrix)-1]
         file.close()
         status = Utils.checkValid(adjacencyMatrix)
         valid : bool
 
         if (status == "valid"):
+            adjacencyMatrix = adjacencyMatrix[0:len(adjacencyMatrix)-1]
             adjacencyMatrix = [list(map(int, x)) for x in adjacencyMatrix]
             print("File valid")
             valid = True
@@ -40,25 +42,7 @@ class Utils:
             print("Matrix hanya dapat berupa angka")
             valid = False
 
-        return adjacencyMatrix, valid
-
-    def nameNode(manual : bool, nodeAmount : int) -> dict[str,int] and list[str]:
-        nodeTupleList : list[(str,int)] = []
-        nameList : list[str] = []
-        
-        if (manual):
-            for i in range (nodeAmount):
-                name = input(("Masukan nama simpul ke-" + str(i+1) + ": "))
-                nameList.append(name)
-                nodeTupleList.append((name,i))
-        else:
-            for i in range (nodeAmount):
-                name = str(i+1)
-                nameList.append(name)
-                nodeTupleList.append((name,i))        
-        nodeDict = dict(nodeTupleList)
-
-        return nodeDict, nameList
+        return adjacencyMatrix, nameList, valid
 
     def matrixToMap(adjacencyMatrix: list[list[int]], nameList : list[str]) -> dict[(str,list[(str,int)])]:
         graphMap : dict
