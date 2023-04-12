@@ -3,7 +3,7 @@ from UCS import *
 
 adjacencyMatrix, nameList, coordinateList, valid = Utils.readFile()
 while (not valid):
-    print("Silahkan Masukkan file yang valid")
+    print("Silahkan masukkan file yang valid")
     adjacencyMatrix, nameList, coordinateList, valid = Utils.readFile()
 
 
