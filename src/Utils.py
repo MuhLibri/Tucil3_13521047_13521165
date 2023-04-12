@@ -19,11 +19,11 @@ class Utils:
             return "coordinate_not_enough"
         for i in range (len(adjecencyMatrix)-2):
             for j in range (len(adjecencyMatrix[0])):
-                if (not adjecencyMatrix[i][j].isdigit()):
+                if (not adjecencyMatrix[i][j].replace('.', '').isdigit()):
                     return "not_number"
         return "valid"
 
-    def readFile() -> list[list[int]] and list[str] and list[(int,int)] and bool:
+    def readFile() -> list[list[float]] and list[str] and list[(float,float)] and bool:
         root = tk.Tk()
         root.withdraw()
         file = filedialog.askopenfile()
@@ -37,7 +37,7 @@ class Utils:
         if (status == "valid"):
             valid = True
             adjacencyMatrix = adjacencyMatrix[0:len(adjacencyMatrix)-2]
-            adjacencyMatrix = [list(map(int, x)) for x in adjacencyMatrix]
+            adjacencyMatrix = [list(map(float, x)) for x in adjacencyMatrix]
             print("File valid")
         else:
             valid = False
@@ -54,10 +54,10 @@ class Utils:
 
         return adjacencyMatrix, nameList, coordinateList, valid
 
-    def matrixToMap(adjacencyMatrix: list[list[int]], nameList : list[str]) -> dict[(str,list[(str,int)])]:
+    def matrixToMap(adjacencyMatrix: list[list[float]], nameList : list[str]) -> dict[(str,list[(str,float)])]:
         graphMap : dict
-        graphTuple : list[str,list[(str,int)]] = []
-        neighbour : list[(str,int)] = []
+        graphTuple : list[str,list[(str,float)]] = []
+        neighbour : list[(str,float)] = []
         for i in range (len(nameList)):
             for j in range (len(adjacencyMatrix[i])):
                 if (adjacencyMatrix[i][j] != 0):
@@ -68,7 +68,7 @@ class Utils:
         graphMap = dict(graphTuple)
         return graphMap                   
 
-    def drawGraph(adjacencyMatrix: list[list[int]], nameList : list[str], coordinateList : list[(int,int)]):
+    def drawGraph(adjacencyMatrix: list[list[float]], nameList : list[str], coordinateList : list[(float,float)]):
         G = nx.Graph()
         i = 0
         for name in nameList:
@@ -95,7 +95,7 @@ class Utils:
         plt.tight_layout()
         plt.show()
 
-    def showPath(adjacencyMatrix: list[list[int]], nameList : list[str], coordinateList : list[(int,int)], path : list[str]):
+    def showPath(adjacencyMatrix: list[list[float]], nameList : list[str], coordinateList : list[(float,float)], path : list[str]):
         G = nx.Graph()
         i = 0
         for name in nameList:
