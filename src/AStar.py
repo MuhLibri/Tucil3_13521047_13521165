@@ -18,13 +18,13 @@ class AStar:
         while(not(self.q.getLowestPriorityKey() > self.current[1] and self.current[0]==self.goal)):
             self.current = self.q.dequeue()
             currentNode, fn, path, costSoFar = self.current
-            print(self.current)
+            # print(self.current)
             for neighbor in self.graph[currentNode]:
                 tempPath = path.copy()
                 tempPath.append(neighbor[0])
                 self.q.enqueue((neighbor[0], self.heuristic_fn(neighbor[0], neighbor[1]), tempPath, costSoFar+neighbor[1]))
-            print(self.q)
-            print('=============')
+            # print(self.q)
+            # print('=============')
         
         return self.current[3], self.current[2]
 
