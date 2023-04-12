@@ -2,12 +2,13 @@ from PriorityQueue import PriorityQueue
 from Utils import Utils
 
 class AStar:
-    def __init__(self, _graph: dict) -> None:
+    def __init__(self, _graph: dict, map: bool = False) -> None:
         self.graph: dict = _graph
         # self.nameList: list[str] = _nameList
         self.q: PriorityQueue = PriorityQueue()
         self.goal: str = ""
         self.current: tuple[str, float, list[str], float] = tuple() # (CurrentNode, fn, Path, costSoFar)
+        self.map = map
 
     def solve(self, origin: str, destination: str) -> tuple[float, list[str]]:
         self.goal = destination
@@ -33,10 +34,18 @@ class AStar:
 
     def heuristic_fn(self, origin: str, weight: float) -> float:
         cost_so_far = self.current[3] + weight
-        estimated_cost_to_goal = AStar.sld(origin, self.goal)
+        estimated_cost_to_goal = AStar.sld(origin, self.goal, map=self.map)
         return cost_so_far + estimated_cost_to_goal
 
 
     @staticmethod
-    def sld(origin: str, destination: str) -> float:
-        return Utils.euclideanDistance(Utils.graph_position[origin], Utils.graph_position[destination])
+    def sld(origin: str, destination: str, map: bool = False) -> float:
+        # print(Utils.graph_position[origin])
+        # print(Utils.graph_position[destination])
+        # print('======================')
+        if(map):
+            og = Utils.graph_position[origin]
+            dg = Utils.graph_position[destination]
+            return Utils.haversine(og[0], og[1], dg[0], dg[1])
+        else:
+            return Utils.euclideanDistance(Utils.graph_position[origin], Utils.graph_position[destination])

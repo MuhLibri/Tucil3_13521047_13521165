@@ -28,11 +28,8 @@ if(graphMode=='file'):
     print("Jarak dari simpul", origin, "ke simpul", destination, "adalah", distance)
     Utils.showPath(adjacencyMatrix, nameList, coordinateList, path)
 elif(graphMode == 'peta'):
-    ay = float(input("Masukkan latitude awal: "))
-    ax = float(input("Masukkan longitude awal: "))
-
-    by = float(input("Masukkan latitude tujuan: "))
-    bx = float(input("Masukkan longitude tujuan: "))
+    ay, ax = map(float, input('Masukkan (latitude,longtude) awal: ').split(','))
+    by, bx = map(float, input('Masukkan (latitude,longtude) tujuan: ').split(','))
 
     origin = (ay,ax)
     destination = (by,bx)

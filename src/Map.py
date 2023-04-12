@@ -5,6 +5,7 @@ import folium
 import math
 from AStar import AStar
 from UCS import UCS
+from Utils import Utils
 
 class Map:
     def __init__(self, origin, destination, mode):
@@ -15,9 +16,9 @@ class Map:
 
         y1, x1 = origin
         y2, x2 = destination
-        # distance = self.haversine(y1, x1, y2, x2)
-        distance = 1000
-        # print(distance)
+        distance = Utils.haversine(y1, x1, y2, x2)*1000
+        # distance = 1000
+        print(distance)
 
         g1 = ox.graph_from_point(origin, dist=distance, network_type='drive')
         g1 = ox.distance.add_edge_lengths(g1)
@@ -36,30 +37,38 @@ class Map:
 
         # graph = {node: [((x,y), weight)]}
         
-
+        print(self.graph)
         self.distance = 0
-        if(mode=='astar'):
+        if(mode=='astar' or mode=='ucs'):
+            pos = {}
+            
             newGraph = {}
             for node in self.graph.nodes:
-                listName = [e for e in self.graph.edges() if node in e]
+                # listName = [e for e in self.graph.edges()[0] if node in e]
+                # print(self.graph.nodes[node])
+                pos.update({str(node): (self.graph.nodes[node]['y'], self.graph.nodes[node]['x'])})
+
+
+                listName = [e for e in self.graph.edges() if e[0] == node]
                 neighbours = []
                 for neighbour in listName:
+                    # print(node)
+                    # print(neighbour)
+                    if neighbour[0]==node:
+                        neighbour = neighbour[1]
+                    else:
+                        neighbour = neighbour[0]
+                    # print(self.graph.edges[node,neighbour,0]['length'])
                     neighbours.append((str(neighbour), self.graph.edges[node,neighbour,0]['length']))
                 newGraph.update({str(node): neighbours})
-
-            astar = AStar(newGraph)
+            Utils.graph_position = pos
+        if(mode=='astar'):
+            astar = AStar(newGraph, map=True)
             self.distance, paths = astar.solve('1', '2')
             newPaths = []
             for path in paths:
                 newPaths.append(int(path))
         elif(mode=='ucs'):
-            newGraph = {}
-            for node in self.graph.nodes:
-                listName = [e for e in self.graph.edges() if node in e]
-                neighbours = []
-                for neighbour in listName:
-                    neighbours.append((str(neighbour), self.graph.edges[node,neighbour,0]['length']))
-                newGraph.update({str(node): neighbours})
             nameList = newGraph.keys()
             self.distance, paths = UCS.findUCS('1', '2', newGraph, nameList)
             newPaths = []
@@ -91,10 +100,10 @@ class Map:
         # print(vg)
         # print('=======')
 
-        G.add_edge(id, u, key=0, length=Map.haversine(new_node['y'], new_node['x'], ug['y'], ug['x']))
-        G.add_edge(u, id, key=0, length=Map.haversine(ug['y'], ug['x'],new_node['y'], new_node['x']))
-        G.add_edge(id, v, key=0, length=Map.haversine(new_node['y'], new_node['x'], vg['y'], vg['x']))
-        G.add_edge(v, id, key=0, length=Map.haversine(vg['y'], vg['x'],new_node['y'], new_node['x']))
+        G.add_edge(id, u, key=0, length=1000*Utils.haversine(new_node['y'], new_node['x'], ug['y'], ug['x']))
+        G.add_edge(u, id, key=0, length=1000*Utils.haversine(ug['y'], ug['x'],new_node['y'], new_node['x']))
+        G.add_edge(id, v, key=0, length=1000*Utils.haversine(new_node['y'], new_node['x'], vg['y'], vg['x']))
+        G.add_edge(v, id, key=0, length=1000*Utils.haversine(vg['y'], vg['x'],new_node['y'], new_node['x']))
         return G
 
 
@@ -104,20 +113,7 @@ class Map:
         m.show_in_browser()
 
     
-    @staticmethod
-    def haversine(lat1, lon1, lat2, lon2):
-        # convert decimal degrees to radians
-        lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
 
-        # haversine formula
-        dlon = lon2 - lon1
-        dlat = lat2 - lat1
-        a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
-        c = 2 * math.asin(math.sqrt(a))
-
-        # 6371 km is the radius of the Earth
-        km = 6371 * c
-        return km
 
 # map = Map((-6.89323,107.61037), (-6.89150,107.61329))
 # map.plot()
