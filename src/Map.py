@@ -3,9 +3,11 @@ import networkx as nx
 from shapely.geometry import Point, LineString
 import folium
 import math
+from AStar import AStar
+from UCS import UCS
 
 class Map:
-    def __init__(self, origin, destination):
+    def __init__(self, origin, destination, mode):
         ox.settings.use_cache = True
 
         self.origin = origin
@@ -31,7 +33,29 @@ class Map:
         # self.graph = ox.distance.add_edge_lengths(G)
         # print(self.graph.edges[2,1857160454,0]['length'])
         # print(self.graph.edges[1,32524043,0]['length'])
-        self.route = ox.shortest_path(self.graph, 1, 2)
+
+        # graph = {node: [((x,y), weight)]}
+        newGraph = {}
+        for node in self.graph.nodes:
+            listName = [e for e in self.graph.edges() if node in e]
+            neighbours = []
+            for neighbour in listName:
+                neighbours.append((str(neighbour), self.graph.edges[node,neighbour,0]['length']))
+            newGraph.update({str(node): neighbours})
+
+
+        self.distance = 0
+        if(mode=='astar'):
+            astar = AStar(newGraph)
+            self.distance, paths = astar.solve('1', '2')
+        elif(mode=='ucs'):
+            nameList = newGraph.keys()
+            self.distance, paths = UCS.findUCS('1', '2', newGraph, nameList)
+
+        newPaths = []
+        for path in paths:
+            newPaths.append(int(path))
+        self.route = newPaths
 
     
     @staticmethod
@@ -82,5 +106,5 @@ class Map:
         km = 6371 * c
         return km
 
-map = Map((-6.89323,107.61037), (-6.89150,107.61329))
-map.plot()
+# map = Map((-6.89323,107.61037), (-6.89150,107.61329))
+# map.plot()
