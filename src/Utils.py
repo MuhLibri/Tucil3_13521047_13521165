@@ -56,17 +56,21 @@ class Utils:
             neighbour.clear()
 
         graphMap = dict(graphTuple)
-        return graphMap
-                    
+        return graphMap                   
 
-    def drawGraph(adjacencyMatrix: list[list[int]], nameList : list[str]):
+    def drawGraph(adjacencyMatrix: list[list[int]], nameList : list[str], coordinateList : list[(int,int)]):
         G = nx.Graph()
+        i = 0
+        for name in nameList:
+            G.add_node(name, position=(coordinateList[i][0], coordinateList[i][1]))
+            i += 1
+ 
         for i in range (len(nameList)):
             for j in range (len(adjacencyMatrix[i])):
                 if (adjacencyMatrix[i][j] != 0):
                     G.add_edge(nameList[i], nameList[j], weight = adjacencyMatrix[i][j])
 
-        pos = nx.spring_layout(G, seed=7)
+        pos = nx.get_node_attributes(G, 'position')
         nx.draw_networkx_nodes(G, pos, node_size=[len(v) * 3000 for v in G.nodes()])
         nx.draw_networkx_edges(G, pos, edgelist=G.edges, width=10)
         nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")

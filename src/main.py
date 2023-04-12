@@ -6,8 +6,9 @@ while (not valid):
     print("Silahkan Masukkan file yang valid")
     adjacencyMatrix, nameList, valid = Utils.readFile()
 
-
-Utils.drawGraph(adjacencyMatrix, nameList)
+#                   1      2      3      4      5      6      7      8
+coordinateList = [(0,0),(0,-11),(2,0),(13,13),(0,10),(3,13),(0,20),(0,13)]
+Utils.drawGraph(adjacencyMatrix, nameList, coordinateList)
 map = Utils.matrixToMap(adjacencyMatrix, nameList)
 
 origin = input("Masukkan simpul asal: ")
