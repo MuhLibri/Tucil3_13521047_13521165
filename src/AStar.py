@@ -39,28 +39,4 @@ class AStar:
 
     @staticmethod
     def sld(origin: str, destination: str) -> float:
-        # distances = {
-        #     'arad': 366,
-        #     'bucharest': 0,
-        #     'craiova': 160,
-        #     'dobreta': 242,
-        #     'eforie': 161,
-        #     'fagaras': 176,
-        #     'giurgiu': 77,
-        #     'hirsova': 151,
-        #     'iasi': 226,
-        #     'lugoj': 244,
-        #     'mehadia': 241,
-        #     'neamt': 234,
-        #     'oradea': 380,
-        #     'pitesti': 10,
-        #     'rimnicu vilcea':193,
-        #     'sibiu':253,
-        #     'timisoara':329,
-        #     'urziceni': 80,
-        #     'vaslui': 199,
-        #     'zerind': 374
-        #     }
-
-        # return distances[destination]
         return Utils.euclideanDistance(Utils.graph_position[origin], Utils.graph_position[destination])
