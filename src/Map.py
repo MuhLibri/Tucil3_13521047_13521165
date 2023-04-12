@@ -35,26 +35,39 @@ class Map:
         # print(self.graph.edges[1,32524043,0]['length'])
 
         # graph = {node: [((x,y), weight)]}
-        newGraph = {}
-        for node in self.graph.nodes:
-            listName = [e for e in self.graph.edges() if node in e]
-            neighbours = []
-            for neighbour in listName:
-                neighbours.append((str(neighbour), self.graph.edges[node,neighbour,0]['length']))
-            newGraph.update({str(node): neighbours})
-
+        
 
         self.distance = 0
         if(mode=='astar'):
+            newGraph = {}
+            for node in self.graph.nodes:
+                listName = [e for e in self.graph.edges() if node in e]
+                neighbours = []
+                for neighbour in listName:
+                    neighbours.append((str(neighbour), self.graph.edges[node,neighbour,0]['length']))
+                newGraph.update({str(node): neighbours})
+
             astar = AStar(newGraph)
             self.distance, paths = astar.solve('1', '2')
+            newPaths = []
+            for path in paths:
+                newPaths.append(int(path))
         elif(mode=='ucs'):
+            newGraph = {}
+            for node in self.graph.nodes:
+                listName = [e for e in self.graph.edges() if node in e]
+                neighbours = []
+                for neighbour in listName:
+                    neighbours.append((str(neighbour), self.graph.edges[node,neighbour,0]['length']))
+                newGraph.update({str(node): neighbours})
             nameList = newGraph.keys()
             self.distance, paths = UCS.findUCS('1', '2', newGraph, nameList)
+            newPaths = []
+            for path in paths:
+                newPaths.append(int(path))
+        elif(mode=='default'):
+            newPaths = ox.shortest_path(self.graph, 1, 2)
 
-        newPaths = []
-        for path in paths:
-            newPaths.append(int(path))
         self.route = newPaths
 
     

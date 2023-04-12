@@ -28,12 +28,20 @@ if(graphMode=='file'):
     print("Jarak dari simpul", origin, "ke simpul", destination, "adalah", distance)
     Utils.showPath(adjacencyMatrix, nameList, coordinateList, path)
 elif(graphMode == 'peta'):
-    origin = input("Masukkan simpul asal: ")
-    destination = input("Masukkan simpul tujuan: ")
+    ay = float(input("Masukkan latitude awal: "))
+    ax = float(input("Masukkan longitude awal: "))
 
-    mappeta = Map(origin, destination, 'astar')
+    by = float(input("Masukkan latitude tujuan: "))
+    bx = float(input("Masukkan longitude tujuan: "))
 
-    print("Jarak dari simpul", origin, "ke simpul", destination, "adalah", mappeta.distance)
+    origin = (ay,ax)
+    destination = (by,bx)
+
+    searchMode = input('Masukkan mode(ucs/astar/default): ')
+
+    mappeta = Map(origin, destination, searchMode)
+
+    print("Jarak dari ", origin, "ke ", destination, "adalah", mappeta.distance)
 
     mappeta.plot()
 
