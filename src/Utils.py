@@ -3,9 +3,11 @@ from tkinter import filedialog
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 
 
 class Utils:
+    graph_position = {}
     def checkValid(adjecencyMatrix: list[list[str]]) -> str:
         if (len(adjecencyMatrix)-2 < 8 or len(adjecencyMatrix[0]) < 8):
             return "too_small"
@@ -79,11 +81,13 @@ class Utils:
                     G.add_edge(nameList[i], nameList[j], weight = adjacencyMatrix[i][j])
 
         pos = nx.get_node_attributes(G, 'position')
+        Utils.graph_position = pos
         nx.draw_networkx_nodes(G, pos, node_size=[len(v) * 3000 for v in G.nodes()])
         nx.draw_networkx_edges(G, pos, edgelist=G.edges, width=10)
         nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
         edge_labels = nx.get_edge_attributes(G, "weight")
         nx.draw_networkx_edge_labels(G, pos, edge_labels, font_size=20)
+        # nx.draw(G, pos, with_labels=True)
 
         ax = plt.gca()
         ax.margins(0.08)
@@ -123,3 +127,7 @@ class Utils:
         plt.axis("off")
         plt.tight_layout()
         plt.show()
+
+    @staticmethod
+    def euclideanDistance(a: tuple[float,float], b: tuple[float,float]) -> float:
+        return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)

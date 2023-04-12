@@ -1,14 +1,21 @@
-class PriorityQueue:
-    def __init__(self):
-        self.queue = []
+from typing import TypeVar
 
-    def __str__(self):
+T = TypeVar('T')
+
+class PriorityQueue:
+    def __init__(self) -> None:
+        self.queue: list[T]  = []
+
+
+    def __str__(self) -> str:
         return ' '.join([str(i) for i in self.queue])
 
-    def isEmpty(self):
+
+    def isEmpty(self) -> bool:
         return len(self.queue) == 0
 
-    def enqueue(self, data):
+
+    def enqueue(self, data: T) -> None:
         if (self.isEmpty()):
             self.queue.append(data)
         else:
@@ -17,5 +24,10 @@ class PriorityQueue:
                 i += 1
             self.queue.insert(i, data)
 
-    def dequeue(self):
+
+    def dequeue(self) -> T:
         return self.queue.pop(0)
+
+
+    def getLowestPriorityKey(self) -> float:
+        return self.queue[0][1]
