@@ -8,8 +8,10 @@ class UCS:
         currentNode = origin
         currentNodeWeight = 0
         ucsQueue.enqueue((currentNode, currentNodeWeight, [currentNode]))
+        count = 0
 
         while (currentNode != destination):
+            count+=1
             currentNode, currentNodeWeight, currentNodePath = ucsQueue.dequeue()
             nodeIsPassed[currentNode] = True
             for neighbor in (map[currentNode]):
@@ -20,4 +22,5 @@ class UCS:
             if (currentNode != destination):
                 currentNodePath.clear()
 
+        print('count: ', count)
         return currentNodeWeight, currentNodePath

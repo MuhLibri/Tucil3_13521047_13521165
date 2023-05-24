@@ -8,18 +8,29 @@ class AStar:
         self.q: PriorityQueue = PriorityQueue()
         self.goal: str = ""
         self.current: tuple[str, float, list[str], float] = tuple() # (CurrentNode, fn, Path, costSoFar)
-        self.map = map
+        self._map = map
 
     def solve(self, origin: str, destination: str) -> tuple[float, list[str]]:
         self.goal = destination
         self.q = PriorityQueue()
-        self.current = (origin, AStar.sld(origin, destination), [origin], 0)
+        # print(AStar.sld(origin,destination))
+        self.current = (origin, AStar.sld(origin, destination, map=self._map), [origin], 0)
         self.q.enqueue(self.current)
 
-        while(not(self.q.getLowestPriorityKey() > self.current[1] and self.current[0]==self.goal)):
+        count = 0
+
+        while(not(self.q.getLowestPriorityKey() >= self.current[1] and self.current[0]==self.goal)):
+            count+=1
+            
+            print(self.current[0] == self.goal)
+            # print(self.q.getLowestPriorityKey())
+            # print(self.current[1])
+            # print('=============')
+
+            # print(self.current)
+
             self.current = self.q.dequeue()
             currentNode, fn, path, costSoFar = self.current
-            # print(self.current)
             for neighbor in self.graph[currentNode]:
                 tempPath = path.copy()
                 tempPath.append(neighbor[0])
@@ -27,6 +38,7 @@ class AStar:
             # print(self.q)
             # print('=============')
         
+        print('count: ', count)
         return self.current[3], self.current[2]
 
 
@@ -34,7 +46,9 @@ class AStar:
 
     def heuristic_fn(self, origin: str, weight: float) -> float:
         cost_so_far = self.current[3] + weight
-        estimated_cost_to_goal = AStar.sld(origin, self.goal, map=self.map)
+        estimated_cost_to_goal = AStar.sld(origin, self.goal, map=self._map)
+        # print(f'{cost_so_far} : {estimated_cost_to_goal}')
+        # print(cost_so_far+estimated_cost_to_goal)
         return cost_so_far + estimated_cost_to_goal
 
 
@@ -46,6 +60,8 @@ class AStar:
         if(map):
             og = Utils.graph_position[origin]
             dg = Utils.graph_position[destination]
-            return Utils.haversine(og[0], og[1], dg[0], dg[1])
+            dist = Utils.haversine(og[0], og[1], dg[0], dg[1])*1000
         else:
-            return Utils.euclideanDistance(Utils.graph_position[origin], Utils.graph_position[destination])
+            dist = Utils.euclideanDistance(Utils.graph_position[origin], Utils.graph_position[destination])
+        # print(dist)
+        return dist

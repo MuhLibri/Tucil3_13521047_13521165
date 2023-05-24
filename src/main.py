@@ -39,7 +39,7 @@ elif(graphMode == 'peta'):
     mappeta = Map(origin, destination, searchMode)
 
     print("Jarak dari ", origin, "ke ", destination, "adalah", mappeta.distance)
-
+    print('route len: ', len(mappeta.route))
     mappeta.plot()
 
 

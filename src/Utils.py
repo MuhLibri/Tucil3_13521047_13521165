@@ -82,6 +82,7 @@ class Utils:
 
         pos = nx.get_node_attributes(G, 'position')
         Utils.graph_position = pos
+        print(pos)
         nx.draw_networkx_nodes(G, pos, node_size=[len(v) * 3000 for v in G.nodes()])
         nx.draw_networkx_edges(G, pos, edgelist=G.edges, width=10)
         nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
@@ -131,3 +132,19 @@ class Utils:
     @staticmethod
     def euclideanDistance(a: tuple[float,float], b: tuple[float,float]) -> float:
         return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
+
+    
+    @staticmethod
+    def haversine(lat1, lon1, lat2, lon2):
+        # convert decimal degrees to radians
+        lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
+
+        # haversine formula
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
+        a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
+        c = 2 * math.asin(math.sqrt(a))
+
+        # 6371 km is the radius of the Earth
+        km = 6371 * c
+        return km

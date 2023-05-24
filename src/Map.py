@@ -76,7 +76,7 @@ class Map:
                 newPaths.append(int(path))
         elif(mode=='default'):
             newPaths = ox.shortest_path(self.graph, 1, 2)
-
+        
         self.route = newPaths
 
     
